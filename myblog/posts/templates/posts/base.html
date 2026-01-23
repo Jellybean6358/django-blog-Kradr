@@ -42,8 +42,12 @@
             <div class="container">
                 <a class="navbar-brand" href="{% url 'post_list' %}">DEV_BLOG</a>
                 <div class="d-flex">
-                    <a href="{% url 'post_new' %}" class="btn btn-primary btn-material shadow-sm"></a>
-                    <a href="/admin" class="btn btn-outline-secondary btn-material ms-2"></a>
+                    <a href="{% url 'post_new' %}" class="btn btn-primary btn-material shadow-sm"
+                    data-bs-toggle="tooltip"
+                    title="Create a blog">Create</a>
+                    <a href="/admin" class="btn btn-outline-secondary btn-material ms-2"
+                    data-bs-toggle="tooltip"
+                    title="Open admin panel">Admin</a>
                 </div>
             </div>
         </nav>
