@@ -6,9 +6,10 @@
                 <h2 class="card-title">{{post.title}}</h2>
                 <p class="card-text">{{post.text}}</p>
                 <p class="text-muted">{{post.created_date}}</p>
-                #button
+                
             </div>
         </div>
+        <a href="{% url 'post_edit' pk=post.pk %}" class="btn btn-sm btn-outline-primary">Edit Post</a>
     {% endfor %} 
 {% endblock %}
         
