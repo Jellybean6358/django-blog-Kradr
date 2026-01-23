@@ -1,15 +1,20 @@
-{% extends 'posts/base.html' %} {% block content %}
-    <h1 class="display-4">Latest Posts</h1>
-        {% for post in posts %}
-        <div class="card mb-3">
+{% extends 'posts/base.html' %} 
+{% block content %}
+<div class="row">
+    {% for post in posts %}
+    <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100 shadow-sm material-card">
             <div class="card-body">
-                <h2 class="card-title">{{post.title}}</h2>
-                <p class="card-text">{{post.text}}</p>
-                <p class="text-muted">{{post.created_date}}</p>
-                
+                <h5 class="card-title fw-bold text-primary">{{post.title}}</h5>
+                <p class="card-text text-secondary">{{post.text|truncatewords:20}}</p>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <a href="{% url 'post_detail' pk=post.pk %}" class="btn btn-sm btn-primary">Read more</a>
+                    <small class="text-muted">{{post.created_date|timesince}} ago</small>
+                </div>  
             </div>
         </div>
-        <a href="{% url 'post_edit' pk=post.pk %}" class="btn btn-sm btn-outline-primary">Edit Post</a>
-    {% endfor %} 
+    </div>
+{% endfor %} 
+</div>
 {% endblock %}
-        
+ 
