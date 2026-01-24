@@ -39,16 +39,20 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-            <div class="container">
-                <a class="navbar-brand" href="{% url 'post_list' %}">DEV_BLOG</a>
-                <div class="d-flex">
+            <div class="d-flex align-items-center">
+                {% if user.is_authenticated %}
+                    <span class="me-3 text-muted">HI, {{user.username}}</span>
                     <a href="{% url 'post_new' %}" class="btn btn-primary btn-material shadow-sm"
                     data-bs-toggle="tooltip"
                     title="Create a blog">Create</a>
-                    <a href="/admin" class="btn btn-outline-secondary btn-material ms-2"
-                    data-bs-toggle="tooltip"
-                    title="Open admin panel">Admin</a>
-                </div>
+                    <form action="{% url 'logout' %}" method="post" class="ms-2">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Logout</button>
+                    </form>
+
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-outline-primary btn-material">Login</a>
+                {% endif %}
             </div>
         </nav>
         <div class="container main-container">
