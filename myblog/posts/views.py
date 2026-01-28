@@ -1,9 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
-
+from django.db.models import Q
 from .models import Post
 from .forms import PostForm
 
-
+def post_list(request):
+    posts=Post.objects.all().order_by('-created_date')
+    query=request.GET.get('q')
+    if query and request.user.is_authenticated:
+        posts=posts.filter(Q(title__icontains=query)|Q(text__icontains=query))
+    return render(request,'posts/post_list.html',{'posts':posts,'query':query})
 
 def post_detail(request,pk):
     post=get_object_or_404(Post,pk=pk)
