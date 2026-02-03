@@ -1,0 +1,19 @@
+<div class="row">
+    {% for post in posts %}
+    <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100 shadow-sm material-card">
+            <div class="card-body">
+                <h5 class="card-title fw-bold text-primary">{{ post.title }}</h5>
+                <p class="card-text text-secondary">{{ post.text|truncatewords:20 }}</p>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <a href="{% url 'post_detail' pk=post.pk %}" class="btn btn-sm btn-primary">Read More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5">
+        <h3>No results found.</h3>
+    </div>
+    {% endfor %}
+</div>

@@ -1,0 +1,20 @@
+{% if results %}
+    {% for post in results %}
+        <li>
+            <a class="dropdown-item py-2 border-bottom" href="{% url 'post_detail' pk=post.pk %}">
+                <div class="fw-bold text-dark">{{ post.title }}</div>
+                <small class="text-muted">{{ post.text|truncatewords:5 }}</small>
+            </a>
+        </li>
+    {% endfor %}
+    <li class="bg-light">
+        <a class="dropdown-item text-center text-primary fw-bold py-2" 
+           href="{% url 'post_list' %}?q={{ query }}">
+            See All Results
+        </a>
+    </li>
+{% else %}
+    <li class="p-3 text-center text-muted">
+        <i class="bi bi-search"></i> No results found for "{{ query }}"
+    </li>
+{% endif %}
