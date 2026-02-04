@@ -49,7 +49,7 @@
                     <div class="d-flex align-items-center ms-auto">
                         {% if user.is_authenticated %}
                         <div class="position-relative me-3" id="searchContainer">
-                        <form class="d-flex me-3" action="{% url 'post_list' %}" method="GET">
+                        <form class="d-flex me-3" action="{% url 'post_list' %}" method="GET" autocomplete="off" id="navSearchForm">
                             <input class="form-control form-control-sm me-2 shadow-sm"
                             type="search" name="q" id="searchInput"
                             placeholder="Search posts..."
@@ -57,7 +57,7 @@
                             <button class="btn btn-sm btn-outline-primary" type="submit">Search</button>
                         </form>
                         <ul class="dropdown-menu shadow-lg w-100" id="searchResults"
-                            style="display:none; position:absolute; top:100%; left:0; z-index:1000; min-width:250px;">
+                            style="display:none; position:absolute; top:100%; left:0; z-index:1050; border:1px solid #ddd; border-radius: 8px; background-color:white;">
                         </ul>
                     </div>
                         <span class="me-3 texted-muted d-none d-lg-inline">Hi, {{user.username}}</span>
@@ -90,14 +90,27 @@
                     return;
                 }
                 debounceTimer=setTimeout(()=>{
-                    const url="{% url 'search_results' %}?q=" + encodeURIComponent(query);
-                    fetch(url).then(response=>{
+                    const searchUrl="{% url 'search_results' %}?q=" + encodeURIComponent(query);
+                    fetch(searchUrl).then(response=>{
                         if(!response.ok) throw new Error('404 or Server error');
                         return response.text();
                     })
+                    .then(html=>{if(html.trim().length>0){
+                        searchResults.innerHTML=html;
+                        searchResults.style.display='block';
+                        searchResults.style.backgroundColor='white';
+                    }
+                    else{
+                        searchResults.style.display='none';
+                    }
+                    })
+                    .catch(err=>console.error('Fetch error:', err));
                 },300);
             });
             document.addEventListener('click', function(e){
+                if(e.target.closest('.dropdown-item')){
+                    return;
+                }
                 if(!document.getElementById('searchContainer').contains(e.target)){
                     searchResults.style.display='none';
                 }
